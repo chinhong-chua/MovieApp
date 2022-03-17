@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MovieApp.Models.Movie>  
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <h2>Movie</h2>
+        
+        @if (!Model.Any())
+        {
+            <p>There is no movie available</p>
+        }
+        else
+        {
+            <div class="row  ">
+                    @foreach (var movie in Model)
+                    {
+                        <div class="col-md-4 col-12 ">
+                            <div class="card text-white bg-primary mb-3 " style="">
+                                <div class="card-header">@movie.Id</div>
+                                <div class="card-body">
+                                    <h4 class="card-title">@movie.Name</h4>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+            </div>
+         
+      
+        }
+    
+    </div>
+</div>
+

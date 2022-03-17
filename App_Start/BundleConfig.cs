@@ -23,8 +23,8 @@ namespace MovieApp
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap-morph.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap-morph.css"
+                      ));
         }
     }
 }
