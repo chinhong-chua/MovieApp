@@ -22,7 +22,7 @@ else
             <thead>
                 <tr class="bg-primary text-light">
                     <th scope="col">Customer</th>
-
+                    <th>Discount Rate</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,9 +43,11 @@ else
                 <tr class="table-light">
                     @*<th scope="row">
 
-                        <a href="@Url.Action("Details","Customers", new {id=@customer.Id})">@customer.Name</a>@customer.Name
-                    </th>*@
-                    <td>@Html.ActionLink(customer.Name, "Details", "Customers", new { id = customer.Id }, null)</td>
+            <a href="@Url.Action("Details","Customers", new {id=@customer.Id})">@customer.Name</a>@customer.Name
+        </th>*@
+                    <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
+                    <td>@customer.MembershipType.Name</td>
+
                 </tr>
                 }
 
