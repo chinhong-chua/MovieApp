@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using MovieApp.Models;
 using MovieApp.ViewModel;
 
@@ -21,15 +23,96 @@ namespace MovieApp.Controllers
         public ActionResult Index()
         {
             //var movieList = GetMovies();
-            var movies = _context.Movies.Include(m => m.Genres).ToList();
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
 
             return View(movies);
         }
 
+        public ActionResult Create()
+        {
+            var genres = _context.Genres.DistinctBy(g=>g.Name).ToList();
+            //table1.GroupBy(x => x.Text).Select(x => x.FirstOrDefault());
+
+            var viewModel = new MovieFormViewModel()
+            {
+                Genres = genres
+            };
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult Create(Movie movie)
+        {
+            if (!ModelState.IsValid)
+            {
+                var model = new MovieFormViewModel()
+                {
+                    Genres = _context.Genres.DistinctBy(g => g.Name).ToList()
+                };
+                return View(model);
+            }
+            if (movie != null)
+            {
+                if(movie.Id==0)
+                    movie.DateAdded=DateTime.Now;
+                
+                _context.Movies.Add(movie);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index","Movies");
+        }  
+
+
         public ActionResult Details(int id)
         {
-            var movie = _context.Movies.Include(m=>m.Genres).FirstOrDefault(m => m.Id == id);
+            var movie = _context.Movies.Include(m=>m.Genre).FirstOrDefault(m => m.Id == id);
             return View(movie);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = _context.Movies.FirstOrDefault(m => m.Id == id);
+            var genre = _context.Genres.ToList();
+
+            var viewModel = new MovieFormViewModel()
+            {
+                Genres = genre,
+                Id = id,
+                Name = movie.Name,
+                GenreId = movie.GenreId,
+                ReleaseDate = movie.ReleaseDate,
+                NumberInStock = movie.NumberInStock
+                
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(MovieFormViewModel viewModel)
+        {
+            if (viewModel != null)
+            {
+                var movieInDb = _context.Movies.Single(m => m.Id == viewModel.Id);
+                movieInDb.Name = viewModel.Name;
+                movieInDb.GenreId = viewModel.GenreId;
+                movieInDb.ReleaseDate = viewModel.ReleaseDate;
+                movieInDb.NumberInStock= viewModel.NumberInStock;
+                movieInDb.DateAdded = DateTime.Now.Date;
+
+                try
+                {
+                    _context.SaveChanges();
+
+                }
+                catch (DbEntityValidationException e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Random()

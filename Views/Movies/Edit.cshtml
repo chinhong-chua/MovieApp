@@ -1,0 +1,52 @@
+﻿@model MovieApp.ViewModel.MovieFormViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mt-3">
+    <h2>Edit Movie</h2>
+    @using (Html.BeginForm("Edit", "Movies"))
+    {
+        @*@Html.HttpMethodOverride(HttpVerbs.Put)*@
+        <div class="col-12 mt-3">
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Movie.Name, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Movie.Name, new { @class = "form-control" })
+            </div>
+            <div class="form-group mt-3">
+                @Html.LabelFor(m => m.Movie.ReleaseDate, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Movie.ReleaseDate, "{0: dd MMM yyyy}", new { @class = "form-control" })
+            </div>
+            <div class="form-group mt-3">
+                @Html.LabelFor(m => m.Movie.GenreId, new { @class = "form-label" })
+                @Html.DropDownListFor(m => m.Movie.GenreId, new SelectList(Model.Genres, "Id", "Name"), "Select Genre", new { @class = "form-select" })
+
+            </div>
+            <div class="form-group mt-3">
+                @Html.LabelFor(m => m.Movie.NumberInStock, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Movie.NumberInStock, new { @class = "form-control" })
+            </div>
+        </div>
+
+        @*@Html.HiddenFor(model => model.date_updated, new { @Value = System.DateTime.Now })*@
+        @Html.HiddenFor(m => m.Movie.Id)
+        @Html.HiddenFor(m => m.Movie.DateAdded, new { @Value = System.DateTime.Now })
+        @*@Html.HiddenFor(m=>m.Genres.)*@
+        <div class="row mt-3">
+            <div class="col-6 col-md-3">
+                @Html.ActionLink("Back", "Index", null, new { @class = "btn w-100" })
+            </div>
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-outline-success w-100">Save</button>
+            </div>
+        </div>
+
+    }
+
+</div>
+
+
+

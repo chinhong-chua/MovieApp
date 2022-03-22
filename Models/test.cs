@@ -5,10 +5,7 @@ using System.Web;
 
 namespace MovieApp.Models
 {
-    public class Genre
+    public class test
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
     }
 }

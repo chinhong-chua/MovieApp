@@ -14,24 +14,34 @@
     <div class="col-12">
         <h2>Movie</h2>
         
+        <div class="row mt-3">
+            <div class="col-6 p-3">
+                @*@Html.ActionLink("Create New Movie", "Create", "Movies", new { @class = "btn btn-success" })*@
+                @*<a href='@Url.Action("MyAction", "MyController")'>
+                    <img src='@Url.Content("~/Content/Images/MyLinkImage.png")' />
+                </a>*@
+                <button type="button" onclick="location.href='@Url.Action("Create","Movies")'" class="btn btn-outline-success">Create New Movie</button>
+            </div>
+        </div>
+        
         @if (!Model.Any())
         {
             <p>There is no movie available</p>
         }
         else
         {
-            <div class="row  ">
+            <div class="row">
                     @foreach (var movie in Model)
                     {
                         <div class="col-md-4 col-12 ">
                             <div class="card text-white bg-primary mb-3 " style="">
-                                <a href="@Url.Action("Details","Movies", new {id= movie.Id})" class="custom-card">
+                                <a href="@Url.Action("Edit","Movies", new {id= movie.Id})" class="custom-card">
                                 <div class="card-header">
                                     @*@foreach (var genre in movie.Genres)
                                     {
                                         @genre.Name
                                     }*@
-                                    @movie.Genres.FirstOrDefault().Name
+                                        @movie.Genre.Name
                                 </div>
                                 <div class="card-body">
                                     <h4 class="card-title">@movie.Name</h4>

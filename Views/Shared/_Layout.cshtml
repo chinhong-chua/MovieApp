@@ -16,11 +16,11 @@
 <div class="container">
     @RenderBody()
     <hr/>
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Chin Hong</p>
-    </footer>
+ 
 </div>
-
+<footer class="container">
+    <p>&copy; @DateTime.Now.Year - Chin Hong</p>
+</footer>
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 @RenderSection("scripts", required: false)
