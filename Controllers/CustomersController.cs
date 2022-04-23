@@ -108,5 +108,20 @@ namespace MovieApp.Controllers
 
             return View("CustomerForm",viewModel);
         }
+
+        public ActionResult Delete(int id)
+        {
+            if (id > 0)
+            {
+                var customerInDb = _context.Customers.SingleOrDefault(c=>c.Id==id);
+                if (customerInDb != null)
+                {
+                    _context.Customers.Remove(customerInDb);
+                    _context.SaveChanges();
+                }
+            }
+            TempData["SysMessage"] = "Record is deleted successfully";
+            return RedirectToAction("Index", "Customers");
+        }
     }
 }

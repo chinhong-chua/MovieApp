@@ -41,7 +41,14 @@
         @*@Html.HiddenFor(m=>m.DateAdded,new {@Value= System.DateTime.Now})*@
         @*@Html.HiddenFor(m=>m.Genres.)*@
 
-        <button type="submit" class="btn btn-success mt-3">Save</button>
+        <div class="row mt-3">
+            <div class="col-6 col-md-3">
+                @Html.ActionLink("Back", "Index", null, new { @class = "btn w-100" })
+            </div>
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-outline-success w-100">Save</button>
+            </div>
+        </div>
     }
 
 </div>

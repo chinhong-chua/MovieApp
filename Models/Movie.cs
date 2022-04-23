@@ -18,8 +18,9 @@ namespace MovieApp.Models
         [Required]
         public DateTime ReleaseDate { get; set; }
         public DateTime DateAdded { get; set; }
-        [MinNumInStocks]
-        //[Range(1, 20)]
+        //[MinNumInStocks]
+        [Display(Name = "Number In Stock")]
+        [Range(1, 20)]
         public int NumberInStock { get; set; }
         public Genre Genre{ get; set; }
         [Required]

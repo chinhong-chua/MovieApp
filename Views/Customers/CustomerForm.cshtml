@@ -5,26 +5,26 @@
 }
 
 <div class="row mt-3">
-    <h2>New Customer</h2>
+    <h2>@Model.FormTitle</h2>
     @using (Html.BeginForm("Save", "Customers"))
     {
         @*@Html.ValidationSummary()*@
-        @Html.ValidationSummary(true,"Please fill in the fields correctly")
+        @Html.ValidationSummary(true, "Please fill in the fields correctly")
         <div class="form-group">
             @Html.LabelFor(m => m.Customer.Name)
             @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m=>m.Customer.Name)
+            @Html.ValidationMessageFor(m => m.Customer.Name)
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.Customer.BirthDate)
-            @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:dd MMM yyyy}", new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Customer.BirthDate, "{0:dd MMM yyyy}", new { @class = "form-control datepicker" })
             @Html.ValidationMessageFor(m => m.Customer.BirthDate)
         </div>
 
         <div class="form-group mt-3">
             @Html.LabelFor(m => m.Customer.MembershipTypeId)
             @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Membership Type", new { @class = "form-select" })
-            @Html.ValidationMessageFor(m=>m.Customer.MembershipTypeId)
+            @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
 
         </div>
 
@@ -36,17 +36,44 @@
         </div>
 
         @* if not declaring customer view model, use this to initiate id @Html.Hidden("Movie.Id", (Model.Customer != null) ? Model.Customer.Id :0)*@
-        @Html.HiddenFor(m=>m.Customer.Id)
+        @Html.HiddenFor(m => m.Customer.Id)
         @Html.AntiForgeryToken()
-        <div class="form-group mt-3">
-            <button type="submit" class="btn btn-outline-success">Save</button>
+  
+
+        <div class="row mt-3">
+            <div class="col-6 col-md-3">
+                @Html.ActionLink("Back", "Index", null, new { @class = "btn w-100" })
+            </div>
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn btn-outline-success w-100">Save</button>
+            </div>
         </div>
     }
 </div>
 
 @section scripts
 {
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+            $(".datepicker").datepicker({
+                dateFormat: "dd MM yy",
+                changemonth: true,
+                changeyear: true
+            });
+
+
+        });
+    </script>
+
     @*Render validation at client side*@
     @Scripts.Render("~/bundles/jqueryval")
+    
+
 }
 

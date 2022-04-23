@@ -92,8 +92,23 @@ namespace MovieApp.Controllers
         [HttpPost]
         public ActionResult Edit(MovieFormViewModel viewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                var movie = new MovieFormViewModel()
+                {
+                    Genres = _context.Genres.DistinctBy(g => g.Name).ToList(),
+                    Id = viewModel.Id,
+                    Name = viewModel.Name,
+                    GenreId = viewModel.GenreId,
+                    ReleaseDate = viewModel.ReleaseDate,
+                    NumberInStock = viewModel.NumberInStock
+                };
+                return View(movie);
+            }
+
             if (viewModel != null)
             {
+
                 var movieInDb = _context.Movies.Single(m => m.Id == viewModel.Id);
                 movieInDb.Name = viewModel.Name;
                 movieInDb.GenreId = viewModel.GenreId;
