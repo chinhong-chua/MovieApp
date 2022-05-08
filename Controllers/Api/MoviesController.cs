@@ -32,7 +32,9 @@ namespace MovieApp.Controllers.Api
         {
             //return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
             //return _context.Movies.ToList();
-            return _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+            //return _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+
+            return _context.Movies.Include(m => m.Genre).ToList().Select(Mapper.Map<Movie, MovieDto>);
         }
         [HttpGet]
         // GET api/<controller>/5

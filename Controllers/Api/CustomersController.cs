@@ -7,6 +7,7 @@ using System.Web.Http;
 using AutoMapper;
 using MovieApp.Dtos;
 using MovieApp.Models;
+using System.Data.Entity;
 
 namespace MovieApp.Controllers.Api
 {
@@ -21,7 +22,10 @@ namespace MovieApp.Controllers.Api
         //Get /api/customers
         public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList().Select(Mapper.Map<Customer,CustomerDto>);
+            return _context.Customers
+                .Include(c => c.MembershipType)
+                .ToList()
+                .Select(Mapper.Map<Customer,CustomerDto>);
         }
 
         //Get /api/customers/1

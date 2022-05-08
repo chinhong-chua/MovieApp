@@ -13,17 +13,20 @@
 
 </head>
 <body>
-@Html.Partial("_NavBar")
-<div class="container">
-    @RenderBody()
-    <hr/>
- 
-</div>
-<footer class="container">
-    <p>&copy; @DateTime.Now.Year - Chin Hong</p>
-</footer>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+    @Html.Partial("_NavBar")
+    <div class="container">
+        @RenderBody()
+        <hr />
+
+    </div>
+    <footer class="container">
+        <p>&copy; @DateTime.Now.Year - Chin Hong</p>
+    </footer>
+@*    @Scripts.Render("~/bundles/jquery")*@
+  @*  @Scripts.Render("~/bundles/bootstrap")*@
+
+    @Scripts.Render("~/bundles/lib")
+
+    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -11,6 +11,7 @@ using MovieApp.ViewModel;
 
 namespace MovieApp.Controllers
 {
+    //[AllowAnonymous]
     public class MoviesController : Controller
     {
         private ApplicationDbContext _context;
@@ -23,14 +24,20 @@ namespace MovieApp.Controllers
         public ActionResult Index()
         {
             //var movieList = GetMovies();
-            var movies = _context.Movies.Include(m => m.Genre).ToList();
+            //var movies = _context.Movies.Include(m => m.Genre).ToList();
 
-            return View(movies);
+            //return View(movies);
+
+            if (User.IsInRole(RoleName.CanManageMovies))
+                return View();
+            return View("ReadOnlyList");
+
         }
 
+        [Authorize(Roles = RoleName.CanManageMovies)]
         public ActionResult Create()
         {
-            var genres = _context.Genres.DistinctBy(g=>g.Name).ToList();
+            var genres = _context.Genres.DistinctBy(g => g.Name).ToList();
             //table1.GroupBy(x => x.Text).Select(x => x.FirstOrDefault());
 
             var viewModel = new MovieFormViewModel()
@@ -53,20 +60,20 @@ namespace MovieApp.Controllers
             }
             if (movie != null)
             {
-                if(movie.Id==0)
-                    movie.DateAdded=DateTime.Now;
-                
+                if (movie.Id == 0)
+                    movie.DateAdded = DateTime.Now;
+
                 _context.Movies.Add(movie);
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index","Movies");
-        }  
+            return RedirectToAction("Index", "Movies");
+        }
 
 
         public ActionResult Details(int id)
         {
-            var movie = _context.Movies.Include(m=>m.Genre).FirstOrDefault(m => m.Id == id);
+            var movie = _context.Movies.Include(m => m.Genre).FirstOrDefault(m => m.Id == id);
             return View(movie);
         }
 
@@ -83,7 +90,7 @@ namespace MovieApp.Controllers
                 GenreId = movie.GenreId,
                 ReleaseDate = movie.ReleaseDate,
                 NumberInStock = movie.NumberInStock
-                
+
             };
 
             return View(viewModel);
@@ -113,7 +120,7 @@ namespace MovieApp.Controllers
                 movieInDb.Name = viewModel.Name;
                 movieInDb.GenreId = viewModel.GenreId;
                 movieInDb.ReleaseDate = viewModel.ReleaseDate;
-                movieInDb.NumberInStock= viewModel.NumberInStock;
+                movieInDb.NumberInStock = viewModel.NumberInStock;
                 movieInDb.DateAdded = DateTime.Now.Date;
 
                 try

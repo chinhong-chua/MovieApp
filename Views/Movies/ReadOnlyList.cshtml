@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MovieApp.Models.Movie>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    a.custom-card,
+    a.custom-card:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+</style>
+<div class="row">
+    <div class="col-12 mt-3">
+        <h2>Movie</h2>
+
+        <div class="row mt-3">
+            <div class="col-6 p-3">
+                @*@Html.ActionLink("Create New Movie", "Create", "Movies", new { @class = "btn btn-success" })*@
+                @*<a href='@Url.Action("MyAction", "MyController")'>
+                        <img src='@Url.Content("~/Content/Images/MyLinkImage.png")' />
+                    </a>*@
+            </div>
+        </div>
+
+        <table id="movies" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Genre</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#movies").DataTable({
+                ajax: {
+                    url: "/api/movies",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        //render: function (data, type, movie) {
+                        //    return "<a href='/movies/edit/" + movie.id + "'>" + movie.name + "</a>";
+                        //}
+                    },
+                    {
+                        data: "genre.name"
+                    }
+                ]
+            });
+     
+        });
+    </script>
+}
